@@ -14,3 +14,6 @@
 
 ##Map style:
 ###Im going to use one similar to the example on course website, just having location names and a trail between with an asterik to indicated current position.
+
+##Win Condition
+###Player collects 4 clues in different locations and unlocks the final location to travel to and find his lost friend. If player runs out of money or time their friend gets lost forever and they lose. 
