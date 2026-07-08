@@ -1,8 +1,8 @@
 # CSCI 1300 Final Project
 
-## Theme
+## Theme: The Hangover (The Game)
 
-(TBA)
+##Play as the characters from your favorite move The Hangover as you try to find your lost friend. Travel around the map and interact with familiar characters to collect clues to find your lost friend. 
 
 ## Goal
 
