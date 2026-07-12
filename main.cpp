@@ -8,32 +8,13 @@ using namespace std;
 //main function
 int main(){
 
-//setup
-ifstream inFile("settings.txt"); //import starting settings
-string oldName;
-getline(inFile, oldName); //discard last save
-int startingMoney;
-inFile >> startingMoney; //read starting player name and money
-inFile.close();
-string playerName; 
-
-//get player name, set and store name in settings file
-cout << "Enter your name: ";
-getline(cin, playerName);
-ofstream outFile("settings.txt");
-outFile << playerName << endl;  //write player name
-outFile << startingMoney << endl; 
-outFile.close(); 
-
-Player player(playerName, startingMoney); //construct player
+//setup player
+Player player = loadPlayer("settings.txt");
 
 int spinCount=0; //set outside while loop to keep a running total used for gambling mechanic later. 
 
-vector<NPC> npcs; //add NPCs
-npcs.push_back(Phil());
-npcs.push_back(Alan());
-npcs.push_back(Stu());
-npcs.push_back(Doug());
+//setup npcs
+vector<NPC> npcs = loadNPCs();
 NPC chow = Chow();
 
 //set map locations

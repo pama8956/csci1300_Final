@@ -12,5 +12,6 @@ int displayMenu(Player p, Location loc1, Location loc2, Location loc3, Location 
 bool startSequence(Player p);
 void endSequence(Location l, Player p);
 void startGame();
-
+Player loadPlayer(string filename);
+vector<NPC> loadNPCs();
 #endif

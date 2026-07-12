@@ -1,4 +1,5 @@
 #include "GameFunctions.h"
+#include <fstream>
 
 //set locations to a simple map, show current location and location names
 void displayMap(Location loc1, Location loc2, Location loc3, Location loc4, Location loc5, string currentLocation) {
@@ -235,4 +236,36 @@ void startGame(){
     cout << "Find your friend before you run out of time or money!" << endl;
     cout << "You have 3 days" << endl;
     cout << "Game Started, Good Luck!" << endl;
+}
+
+//player setup
+Player loadPlayer(string filename){
+    ifstream inFile(filename);
+    string oldName;
+    getline(inFile, oldName);
+    int startingMoney;
+    inFile >> startingMoney;
+    inFile.close();
+
+    string playerName;
+    cout << "Enter your name: ";
+    getline(cin, playerName);
+
+    ofstream outFile(filename);
+    outFile << playerName << endl;
+    outFile << startingMoney << endl;
+    outFile.close();
+
+    Player player(playerName, startingMoney);
+    return player;
+}
+
+//npc setup
+vector<NPC> loadNPCs(){
+    vector<NPC> npcs;
+    npcs.push_back(Phil());
+    npcs.push_back(Alan());
+    npcs.push_back(Stu());
+    npcs.push_back(Doug());
+    return npcs;
 }
