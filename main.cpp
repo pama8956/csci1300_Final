@@ -1,242 +1,9 @@
-#include "Location.h"
-#include "Player.h"
-#include "GameCharacters.h"
+#include "GameFunctions.h"
 #include <iostream>
 #include <string>
 #include <fstream>
 #include <vector>
 using namespace std;
-
-//set locations to a simple map, show current location and location names
-void displayMap(Location loc1, Location loc2, Location loc3, Location loc4, Location loc5, string currentLocation) {
-    string l1;
-    string l2;
-    string l3;
-    string l4;
-    string l5;
-   if( loc1.isUnlocked()==1){
-     l1 = "[" + loc1.getName() + "]";
-   } else{
-      l1 = "[ ???? ]";
-   }
-    if( loc2.isUnlocked()==1){
-         l2 = "[" + loc2.getName() + "]";
-    }else{
-      l2 = "[ ???? ]";
-   }
-    if( loc3.isUnlocked()==1){
-         l3 = "[" + loc3.getName() + "]";
-    }else{
-      l3 = "[ ???? ]";
-   }
-    if( loc4.isUnlocked()==1){
-         l4 = "[" + loc4.getName() + "]";
-    }else{
-      l4 = "[ ???? ]";
-   }
-    if( loc5.isUnlocked()==1){
-         l5 = "[" + loc5.getName() + "]";
-    }else{
-      l5 = "[ ???? ]";
-   }
-
-    if (currentLocation == loc1.getName() && loc1.isUnlocked()==1){
-    l1 = "[*" + loc1.getName() + "]";
-    }
-    if (currentLocation == loc2.getName() && loc2.isUnlocked()==1) {
-    l2 = "[*" + loc2.getName() + "]";
-    }
-    if (currentLocation == loc3.getName() && loc3.isUnlocked()==1) {
-    l3 = "[*" + loc3.getName() + "]";
-    }
-    if (currentLocation == loc4.getName() && loc4.isUnlocked()==1) {
-    l4 = "[*" + loc4.getName() + "]";
-    }
-    if (currentLocation == loc5.getName() && loc5.isUnlocked()==1){
-     l5 = "[*" + loc5.getName() + "]";
-    }
-    cout << "========================== Map ============================="  << endl;
-    cout << endl;
-    cout << "                    " << l5 << endl;
-    cout << "                         |" << endl;
-    cout << "                         |  (far away)" << endl;
-    cout << "                         |" << endl;
-    cout << l1 << " ---- " << l2 << " ---- " << l3 << endl;
-    cout << "                    |" << endl;
-    cout << "                 " << l4 << endl;
-    cout << endl;
-    cout << "* = current location" << endl;
-}
-
-////show menu and ask for next move
-int displayMenu(Player p, Location loc1, Location loc2, Location loc3, Location loc4, Location loc5, vector<NPC> npcs, NPC chow){
-    cout << endl;
-    cout<< "============================================================"  << endl;
-    cout<< "======================= Main Menu =========================="  << endl;
-    cout<< "============================================================"  << endl;
-    cout << "|| Player Name: " << p.getName() << endl;
-    cout << "|| Day: " << p.getDay() << " / 3" << endl;
-    cout << "|| Money: $" << p.getMoney() << endl;
-    cout << "|| Energy Left: " << p.getActionsRemaining() << endl;
-    cout << "|| Inventory: " ; 
-    if(p.getInventoryCount() == 0){
-        cout << "Inventory empty. " << endl;
-    }
-    p.displayInventory();
-    cout << endl;
-    cout << "|| Clues Collected: " << p.getClueCount() << "/4" << endl;
-    cout << endl;
-    displayMap(loc1, loc2, loc3, loc4, loc5, p.getCurrentLocation());
-    cout << endl;
-
-    bool anyoneHere = false;
-    cout << "Characters Nearby: " << endl;
-    for (int i = 0; i < (int)npcs.size(); i++){
-    if (npcs[i].getLocation() == p.getCurrentLocation()){
-        cout << npcs[i].getName() << endl;
-        anyoneHere = true;
-        } 
-    }
-     if(chow.getLocation()==p.getCurrentLocation()){
-        cout << chow.getName() << endl;
-    }
-    if(anyoneHere==0){
-        cout << "Noone is at " << p.getCurrentLocation() << endl;
-    }
-
-    cout << endl;
-    cout<< "========================= Action ==========================="  << endl;
-    cout << endl;
-    cout << "|| What would you like to do?" << endl;
-    if(p.getLocation()==loc1.getName()){
-        cout << "(Try moving around the map to find new characters)" << endl;
-    } else if (p.getLocation()==loc2.getName()){
-        cout << "(Try interacting with characters, or try your luck at the slots for some extra cash!)" << endl;
-    } else if (p.getLocation()==loc4.getName()){
-         cout << "(Have some fun and talk to people, you never know who might know something!)" << endl;
-    } else if (p.getLocation()==loc5.getName()){
-         cout << "(You've come a long way, try to find Alan, or Chow if youre looking for a good time...)" << endl;
-    }
-    cout << "|| 1. Move to another location" << endl;
-    cout << "|| 2. Talk to someone" << endl;
-    cout << "|| 3. Sell items" << endl;
-    cout << "|| 4. End game" << endl;
-    cout << "Enter choice: ";
-    int choice;
-    cin >> choice;
-
-    while (cin.fail() || choice < 1 || choice > 4){
-        cin.clear();  
-        cin.ignore(1000, '\n');
-        cout << "Invalid choice, please enter a number 1-4: " << endl;
-        cin >> choice;
-    }
-    return choice;
-  }
-
-//print at start of game to give direction and initiate gameplay (introduction)
-bool startSequence(Player p){
-    cout << endl;
-    cout<< "============================================================"  << endl;
-    cout << "============ Welcome to The Hangover the game =============" << endl;
-    cout<< "============================================================"  << endl;
-    cout << endl;
-    cout << "You wake up to the sound of chirping birds..." << endl;
-    cout << "You look around for your friend, but you cant seem to find him," << endl;
-    cout << "Try going to the lobby..." << endl;
-    cout << endl;
-    bool goToLobby=0;
-    cout << "Enter 1 to go to lobby, 0 to exit game" << endl;
-    cin >> goToLobby;
-    while (cin.fail() || (goToLobby!=0 && goToLobby!=1)){
-        cin.clear();
-        cin.ignore(1000, '\n');
-        cout << "Invalid input, enter 0 or 1." << endl;
-        cout << "Enter 1 to go to lobby, 0 to exit game" << endl;
-        cout << endl;
-        cout << "Choice: ";
-        cin >> goToLobby;
-    }
-    if (goToLobby==1){
-        cout << endl;
-        cout<< "============================================================"  << endl;
-        cout << endl;
-        cout << "You enter the lobby and go the the front desk." << endl;
-        cout << endl;
-        cout << "Hotel Worker says:" << endl;
-        cout << "Hello, " << p.getName() << " you and your friend had quite a night!" << endl;
-        cout << "You dont know where he is, do you? Want some help?" << endl;
-        cout << endl;
-        cout << "*Would you like to ask the desk worker for help?*" << endl;
-        bool help;
-        cout << "Enter a 1 to ask for help, 0 to decline." << endl;
-        cin >> help;
-          while (cin.fail() || (help!=0 && help!=1)){
-            cin.clear();
-            cin.ignore(1000, '\n');
-            cout << "Invalid input, enter 0 or 1." << endl;
-            cout << "Enter a 1 to ask for help, 0 to decline." << endl;
-            cout << "Choice: ";
-            cin >> help;
-          }
-        if(help==1){
-            cout << endl;
-            cout<< "============================================================"  << endl;
-            cout << endl;
-            cout << "Hotel Worker says:" << endl;
-            cout << "Well, the first place you went to last night was The Casino, so you might want to head there and ask around for any clues..." << endl;
-        } 
-        else if(help==0){
-            cout << endl;
-            cout<< "============================================================"  << endl;
-            cout << endl;
-            cout << "Hotel Worker says:" << endl;
-            cout << "Alright, hope you know what youre doing!! You guys went all around last night. " << endl;
-        }
-    }
-    else if(goToLobby==0){
-        cout << endl;
-        cout<< "============================================================"  << endl;
-        cout << "===================== Game aborted ========================" << endl;
-        cout<< "============================================================"  << endl;
-        return 0;
-    }
-    return 1;
-}
-
-//ending output wrap up game
-void endSequence(Location l, Player p){
-        cout << endl;
-            cout << "=========================================================" << endl;
-            cout << "You enter a mysterious car..." << endl;
-            cout << "This better not be Chow again!" << endl; 
-            cout << "You have arrived at the secret " << l.getName() << endl << "Congratulations " << p.getName() << "!" << endl;
-            cout << "You begin to walk around and notice a trail of cigarette ash and beer cans leading the the porta potty. " << endl;
-            cout << "*Groan* " << endl; 
-            cout << "*Arggg* " << endl; 
-            cout << "Oh nooo" << endl;
-            cout << "*SLAM* " << endl; 
-            cout << "You open the door to see your friend strung across the floor. " << endl; 
-            cout << "*GASP* " << p.getName() << " Its you!!" << endl; 
-            cout << "You found me! Ive been stuck in here for " << (p.getDay()) << " days!" << endl; 
-            cout << "What the hell happened??" << endl; 
-            cout << "..." << endl; 
-            cout << "Congratulations, you have beat: The Hangover--THE GAME!!!" << endl;
-            cout << "Thanks for playing, hopefully this doesnt happen again..." << endl;
-            cout << "Created by Patrick Martin ;)" << endl; 
-            cout << "=========================================================" << endl;
-}
-
-//title screen and intro
-void startGame(){
-    cout << endl;
-    cout<< "============================================================"  << endl;
-    cout<< "===================== The Hangover ========================="  << endl;
-    cout<< "============================================================"  << endl;
-    cout << "Find your friend before you run out of time or money!" << endl;
-    cout << "You have 3 days" << endl;
-    cout << "Game Started, Good Luck!" << endl;
-}
 
 //main function
 int main(){
@@ -432,7 +199,7 @@ if (chowHere && who == chowOption){
         cout << "Traveling cost is now free, but now you only get 3 energy per day. Good luck!" << endl;
     } else{
         cout << "Not traveling with Chow." << endl;
-        cout << "Chow says: Whatever lame-o..." << endl;
+        cout << "Chow says: \n Whatever lame-o..." << endl;
         }
     }
     player.useAction(); 
@@ -441,8 +208,12 @@ if (chowHere && who == chowOption){
 
     //casino game option(gamble money)
 if (player.getCurrentLocation() == "Casino" &&(who ==slotOption)){
+        cout << endl;
+        cout<< "============================================================"  << endl;
+        cout << endl;
         cout << "Pete the dealer says: " << endl;
         cout << "Welcome to the Casino, would you like to play the slot machine?" << endl;
+        cout << endl;
         cout << "Enter a 1 to play, 0 to exit: " ;
         bool playSlots;
         cin >>playSlots;
@@ -453,6 +224,7 @@ if (player.getCurrentLocation() == "Casino" &&(who ==slotOption)){
             cin >>playSlots;
         }
         if(playSlots==1){
+            
     cout << "How much would you like to bet? (0 to cancel)" << endl;
     cout << "Bet: ";
     int bet;
@@ -465,6 +237,9 @@ if (player.getCurrentLocation() == "Casino" &&(who ==slotOption)){
         cin >> bet;
     } 
     if (bet==0){
+        cout << endl;
+        cout<< "============================================================"  << endl;
+        cout << endl;
         cout << "Scared money dont make money, maybe next time ;)" << endl;
         break;
         }
@@ -475,33 +250,51 @@ if (player.getCurrentLocation() == "Casino" &&(who ==slotOption)){
         if (player.isTravelingWithChow()==1){ //better odds if traveling with chow (50/50) BUT lower largest payout possible
             if(randomGenerator==1 ||randomGenerator==2 || randomGenerator==3){
                 int winnings = bet*2;
+                cout << endl;
+                cout<< "============================================================"  << endl;
+                cout << endl;
                 cout << "Winner!!!" << endl;
                 player.addMoney(winnings);
                 cout << "Winnings: $" << winnings << endl;
             } else{
-        cout << "Bust, better luck next time." << endl;
-        cout << "You lost: $" << bet << endl;
+            cout << endl;
+            cout<< "============================================================"  << endl;
+            cout << endl;
+            cout << "Bust, better luck next time." << endl;
+            cout << "You lost: $" << bet << endl;
             }
         }
         else if (randomGenerator==0){
             int winnings = bet*3;
+            cout << endl;
+            cout<< "============================================================"  << endl;
+            cout << endl;
             cout << "JACKPOT!!" << endl;
             player.addMoney(winnings);
             cout << "Winnings: $" << winnings << endl;
 
         } else if (randomGenerator==1){
             int winnings = bet*2;
+            cout << endl;
+            cout<< "============================================================"  << endl;
+            cout << endl;
             cout << "Hit!!" << endl;
             player.addMoney(winnings);
             cout << "Winnings: $" << winnings << endl;
         }
         else if (randomGenerator==3){
             int winnings = bet;
+            cout << endl;
+            cout<< "============================================================"  << endl;
+            cout << endl;
             cout << "Broke even" << endl;
             player.addMoney(winnings);
             cout << "Winnings: $" << winnings << endl;
         } 
         else{
+            cout << endl;
+            cout<< "============================================================"  << endl;
+            cout << endl;
             cout << "BUST, better luck next time." << endl;
             cout << "You lost: $" << bet << endl;
             }
@@ -515,6 +308,9 @@ if (player.getCurrentLocation() == "Casino" &&(who ==slotOption)){
 else{
     int index = hereNPCIndexes[who-1]; //back to zero index
         //print character dialouge
+    cout << endl;
+    cout<< "============================================================"  << endl;
+    cout << endl;
     cout << endl << npcs[index].getName() << " says:" << endl;
     cout << "\"" << npcs[index].getDialouge() << "\"" << endl ;
     cout << endl; 
@@ -542,34 +338,59 @@ else{
 
         if(tradeChoice==1){ //adds item to inventory, shows what you purchased and for how much
             if(player.spendMoney(npcs[index].getCost())==1){
+                cout << endl;
+                cout<< "============================================================"  << endl;
+                cout << endl;
                 cout << "Purchase successful. You now have " << npcs[index].getTradeItem().getName() << endl;
                 cout << "Spent " << npcs[index].getCost() << endl;
                 player.addItem(npcs[index].getTradeItem()); //adds new trade item
                 player.addItem(npcs[index].getClueItem()); // adds clue item 
                 npcs[index].markGiven(); //tracks that npc has already traded
+
                 if (npcs[index].getName() == "Phil"){
+                    cout << endl;
+                    cout<< "============================================================"  << endl;
+                    cout << endl;
                     cout << "Phil whispers: Take those pictures to Alan, he might know something. I heard he's somewhere overseas partying with Chow..." << endl;
                 } else if (npcs[index].getName() == "Alan"){
+                   cout << endl;
+                    cout<< "============================================================"  << endl;
+                    cout << endl; 
                    cout << "Alan laughs: Stu back at The Club will want this." << endl;
                 } else if (npcs[index].getName() == "Stu"){
+                    cout << endl;
+                    cout<< "============================================================"  << endl;
+                    cout << endl;
                     cout << "Stu says: Doug's around here somewhere at The Club, go find him." << endl;
                 } else if (npcs[index].getName() == "Doug"){
+                    cout << endl;
+                    cout<< "============================================================"  << endl;
+                    cout << endl;
                 cout << "Doug says: Good luck finding your friend, hope this helps." << endl;
                 }
                     if (player.getClueCount() >= 4){
                         loc3.unlock();
                     }
             } else{ //if player cant afford
-                cout << "Not enought Money." << endl;
+                    cout << endl;
+                    cout<< "============================================================"  << endl;
+                    cout << endl;
+                    cout << "Not enought Money." << endl;
                 break;
             }
         }
         else if(tradeChoice==2){
             if(canTrade==0){ 
+                    cout << endl;
+                    cout<< "============================================================"  << endl;
+                    cout << endl;
                 cout << "Cannot trade with " << npcs[index].getName() << " right now." << endl; //if you dont have items or item already been traded 
                 break;
             }
             //same logic as buying, removes item instead of money
+                    cout << endl;
+                    cout<< "============================================================"  << endl;
+                    cout << endl;
             cout << "Trade successful. You now have " << npcs[index].getTradeItem().getName() << endl;
             player.removeItem(npcs[index].getRequiredItem()); 
             player.addItem(npcs[index].getTradeItem());
@@ -579,12 +400,36 @@ else{
                 loc3.unlock();
                 if(player.getActionsRemaining() <= 0){
             player.addAction(); //adds final action if player used last action to get final clue
-            }
+            } 
                 cout << endl;
                 cout << endl << "Something about that last piece makes everything click into place..." << endl;
                 cout << "A new path has opened up. Time to go find your friend." << endl << "Clues collected: 4/4" << endl;
                 cout << endl;
-            }
+            } else if (npcs[index].getName() == "Phil"){
+                    cout << endl;
+                    cout<< "============================================================"  << endl;
+                    cout << endl;
+                    cout << "Phil whispers: Take those pictures to Alan, he might know something. I heard he's somewhere overseas partying with Chow..." << endl;
+                } else if (npcs[index].getName() == "Alan"){
+                   cout << endl;
+                    cout<< "============================================================"  << endl;
+                    cout << endl; 
+                   cout << "Alan laughs: Stu back at The Club will want this." << endl;
+                } else if (npcs[index].getName() == "Stu"){
+                    cout << endl;
+                    cout<< "============================================================"  << endl;
+                    cout << endl;
+                    cout << "Stu says: Doug's around here somewhere at The Club, go find him." << endl;
+                } else if (npcs[index].getName() == "Doug"){
+                    cout << endl;
+                    cout<< "============================================================"  << endl;
+                    cout << endl;
+                cout << "Doug says: Good luck finding your friend, hope this helps." << endl;
+                }
+                    if (player.getClueCount() >= 4){
+                        loc3.unlock();
+                    }
+            
         } else{
             break;
         }
