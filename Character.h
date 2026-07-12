@@ -1,3 +1,6 @@
+#ifndef CHARACTER_H
+#define CHARACTER_H
+
 #include <iostream>
 #include <string> 
 
@@ -18,3 +21,4 @@ class Character{
     void setLocation(string l);
 
 };
+#endif

@@ -1,3 +1,5 @@
+#ifndef ITEMS_H
+#define ITEMS_H
 #include <iostream>
 #include <string>
 
@@ -30,3 +32,4 @@ void setClue(bool clue);
 
 bool getClue();
 };
+#endif

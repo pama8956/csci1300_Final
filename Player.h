@@ -28,10 +28,15 @@ void moveLocation(string location);
 string getCurrentLocation();
 void addItem(Item i);
 void displayInventory();
+int getInventoryCount();
 int getClueCount();
 void setTravelWithChow(bool b);
 bool isTravelingWithChow(); 
 bool checkWin();
 bool checkLoss();
+bool hasItem(string itemName);
+int getItemValue(string itemName);
+void removeItem(string itemName);
+bool sellItem(string itemName);
 };
 

@@ -1,21 +1,37 @@
 #include "NPC.h"
 
-NPC::NPC(string n, string d, bool c, string l) : Character(n, l){
-    dialouge =d;
-    hasClue=c;
+  NPC::NPC(string n, string l, string d, string rI, int tc, Item tI, Item cI)
+      : Character(n, l), tradeItem(tI), clueItem(cI){  dialouge = d;
+    requiredItem = rI;
+    tradeCost = tc;
+    hasGivenItem = false;
 }
 
+    string NPC::getRequiredItem(){
+        return requiredItem;
+    }
+    int NPC::getCost(){
+        return tradeCost;
+    }
 
-void NPC::setClue(bool c){
-    hasClue = c;
-}
-bool NPC::getHasClue(){
-    return hasClue;
-}
+    Item NPC::getTradeItem(){
+    return tradeItem;
+    }
+  
+    Item NPC::getClueItem(){
+        return clueItem;
+    }
 
-void NPC::setDialouge(string d){
+    bool NPC::getHasGivenItem(){
+        return hasGivenItem;
+    }
+    void NPC::markGiven(){
+        hasGivenItem=true;
+    }
+
+    void NPC::setDialouge(string d){
     dialouge = d;
-}
-string NPC::getDialouge(){
+    }
+    string NPC::getDialouge(){
     return dialouge;
-}
+    }

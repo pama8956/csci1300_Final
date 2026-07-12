@@ -39,7 +39,11 @@ int Player::getActionsRemaining(){
 
 void Player::nextDay(){
     day++;
-    actionsLeft=5;
+     if (isTravelingWithChow()){
+        actionsLeft = 3;
+    } else {
+        actionsLeft = 5;
+    }
 }
 void Player::moveLocation(string location){
     setLocation(location);
@@ -49,12 +53,18 @@ string Player::getCurrentLocation(){
 }
 void Player::addItem(Item i){
     inventory.push_back(i);
+    if (i.getClue()){
+        cluesCollected++;
+    }
 }
 void Player::displayInventory(){
   for (int i = 0; i < (int)inventory.size(); i++){
-        cout << inventory[i].getName() << " - " << inventory[i].getType() << endl;
+    cout << inventory[i].getName() << " - " << inventory[i].getType() << ", ";
     }
-};
+}
+int Player::getInventoryCount(){
+    return (int)inventory.size();
+}
 int Player::getClueCount(){
     return cluesCollected;
 }
@@ -79,5 +89,44 @@ bool Player::checkLoss(){
     }
     return false;
 }
+bool Player::hasItem(string itemName){
+    for (int i = 0; i < (int)inventory.size(); i++){
+        if (inventory[i].getName() == itemName){
+            return true;
+        }
+    }
+    return false;
+}
 
+int Player::getItemValue(string itemName){
+    for (int i = 0; i < (int)inventory.size(); i++){
+        if (inventory[i].getName() == itemName){
+            return inventory[i].getValue();
+        }
+    }
+    return 0;
+}
+
+void Player::removeItem(string itemName){
+    for (int i = 0; i < (int)inventory.size(); i++){
+        if (inventory[i].getName() == itemName){
+            inventory.erase(inventory.begin() + i);
+            break;
+        }
+    }
+}
+
+bool Player::sellItem(string itemName){
+    for (int i = 0; i < (int)inventory.size(); i++){
+        if (inventory[i].getName() == itemName){
+            if (inventory[i].getClue()){
+                return false; // can't sell clues
+            }
+            money += inventory[i].getValue();
+            inventory.erase(inventory.begin() + i);
+            return true;
+        }
+    }
+    return false; // item not in inventory
+}
 
