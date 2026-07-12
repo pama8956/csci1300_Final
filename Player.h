@@ -38,5 +38,6 @@ bool hasItem(string itemName);
 int getItemValue(string itemName);
 void removeItem(string itemName);
 bool sellItem(string itemName);
+void addAction();
 };
 

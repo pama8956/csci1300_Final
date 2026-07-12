@@ -59,7 +59,7 @@ void Player::addItem(Item i){
 }
 void Player::displayInventory(){
   for (int i = 0; i < (int)inventory.size(); i++){
-    cout << inventory[i].getName() << " - " << inventory[i].getType() << ", ";
+    cout << "[" << inventory[i].getName() << " - " << inventory[i].getType() << "]" << ", ";
     }
 }
 int Player::getInventoryCount(){
@@ -128,5 +128,9 @@ bool Player::sellItem(string itemName){
         }
     }
     return false; // item not in inventory
+}
+
+void Player::addAction(){
+    actionsLeft++;
 }
 

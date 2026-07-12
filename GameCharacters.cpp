@@ -1,43 +1,43 @@
 #include "GameCharacters.h"
 
 NPC Phil(){
-    Item tradeItem("Poker Chip", 250, "Trade Item", false);
+    Item tradeItem("Plane ticket", 250, "Trade Item", false);
     Item clueItem("Photo booth pictures", 0, "Clue", true);
 
     NPC phil("Phil", "Casino", //name location
         "Psst, buddy. You look like you're missing something. I might be able to help... for a price.", //dialouge
-             "NONE", 250, tradeItem, clueItem); //set 
+             "NONE", 100, tradeItem, clueItem); //set 
 
     return phil;
 }
 
 NPC Alan(){
-    Item tradeItem("Comb", 100, "Trade Item", false );
+    Item tradeItem("Comb", 150, "Trade Item", false );
     Item clueItem("Man Purse", 0, "Clue", true);
 
     NPC alan("Alan", "Thailand", 
-        "*Flips Hair* Hey, heard youre looking for something. ",
-        "Poker Chip", 100, tradeItem, clueItem);
+        "*Flips Hair* Hey, heard youre looking for something. \n Ive got this sweet comb, i just need a ticket out of here. Or if you have some cash... ",
+        "Plane ticket", 100, tradeItem, clueItem);
         return alan;
     }
 
 NPC Stu(){
-    Item tradeItem("Missing ID", 150, "Trade Item", false );
+    Item tradeItem("Missing ID", 200, "Trade Item", false );
     Item clueItem("Mike Tyson tattoo recipt", 0, "Clue", true);
 
     NPC stu("Stu", "The Club", 
-        "Oh god what now?? Look im a doctor i really dont have time for this, i look like a wreck and need to get ready for work. Do you have anything that could help?",
+        "Oh god what now?? Look im a doctor i really dont have time for this, i look like a wreck and need to get ready for work. \n I think I have your friends ID. Do you have anything that could help me?",
         "Comb", 150, tradeItem, clueItem);
         return stu;
     }
 
 NPC Doug(){
 
-    Item tradeItem("Car Keys", 200, "Trade Item", false );
+    Item tradeItem("Car Keys", 250, "Trade Item", false );
     Item clueItem("Telephone", 0, "Clue", true);
 
     NPC doug("Doug", "The Club", 
-        "Hello! My breath stinks, i was out late last night... \n Anways, you got a mint or something, I phone this random phone last night that might be of use to you.",
+        "Hey! My wife is pissed... \n We have a date in 30 minutes and I was out all night. \n You got a mint or something? I found your friends phone last night, its got a bunch of pictures at a park...",
         "Missing ID", 200, tradeItem, clueItem);
         return doug;
 }
