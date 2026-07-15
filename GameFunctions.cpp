@@ -140,6 +140,7 @@ bool startSequence(Player p){
     cout << "Try going to the lobby..." << endl;
     cout << endl;
     bool goToLobby=0;
+    //basic start sequence so player can terminate before starting if wanted
     cout << "Enter 1 to go to lobby, 0 to exit game" << endl;
     cin >> goToLobby;
     while (cin.fail() || (goToLobby!=0 && goToLobby!=1)){
@@ -240,6 +241,7 @@ void startGame(){
 
 //player setup
 Player loadPlayer(string filename){
+    //takes starting settings from settings.txt
     ifstream inFile(filename);
     string oldName;
     getline(inFile, oldName);
@@ -247,15 +249,15 @@ Player loadPlayer(string filename){
     inFile >> startingMoney;
     inFile.close();
 
+    //stores player name in settings.txt
     string playerName;
     cout << "Enter your name: ";
     getline(cin, playerName);
-
     ofstream outFile(filename);
     outFile << playerName << endl;
     outFile << startingMoney << endl;
     outFile.close();
-
+    //initializes player 
     Player player(playerName, startingMoney);
     return player;
 }

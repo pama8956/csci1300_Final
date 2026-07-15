@@ -39,7 +39,7 @@ int Player::getActionsRemaining(){
 
 void Player::nextDay(){
     day++;
-     if (isTravelingWithChow()){
+     if (isTravelingWithChow()){ //joja logic tradeoff
         actionsLeft = 3;
     } else {
         actionsLeft = 5;
@@ -52,7 +52,7 @@ string Player::getCurrentLocation(){
     return getLocation();
 }
 void Player::addItem(Item i){
-    inventory.push_back(i);
+    inventory.push_back(i);//adds items into vector inventory
     if (i.getClue()){
         cluesCollected++;
     }
@@ -91,7 +91,7 @@ bool Player::checkLoss(){
 }
 bool Player::hasItem(string itemName){
     for (int i = 0; i < (int)inventory.size(); i++){
-        if (inventory[i].getName() == itemName){
+        if (inventory[i].getName() == itemName){ //find item return name
             return true;
         }
     }
@@ -100,7 +100,7 @@ bool Player::hasItem(string itemName){
 
 int Player::getItemValue(string itemName){
     for (int i = 0; i < (int)inventory.size(); i++){
-        if (inventory[i].getName() == itemName){
+        if (inventory[i].getName() == itemName){ //find item return value
             return inventory[i].getValue();
         }
     }
@@ -116,7 +116,7 @@ void Player::removeItem(string itemName){
     }
 }
 
-bool Player::sellItem(string itemName){
+bool Player::sellItem(string itemName){//adds item cost to player money removes item from player inventory
     for (int i = 0; i < (int)inventory.size(); i++){
         if (inventory[i].getName() == itemName){
             if (inventory[i].getClue()){
@@ -131,6 +131,6 @@ bool Player::sellItem(string itemName){
 }
 
 void Player::addAction(){
-    actionsLeft++;
+    actionsLeft++; 
 }
 

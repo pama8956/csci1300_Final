@@ -1,5 +1,7 @@
 #include "GameCharacters.h"
 
+
+//defines npc behavior.
 NPC Phil(){
     Item tradeItem("Plane ticket", 250, "Trade Item", false);
     Item clueItem("Photo booth pictures", 0, "Clue", true);

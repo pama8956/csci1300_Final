@@ -17,23 +17,24 @@ bool travelingWithChow;
 
 public:
 Player(string n, int m=500);
-void addMoney(int amount);
-bool spendMoney(int amount);
-int getMoney();
 void useAction();
 int getActionsRemaining();
 void nextDay();
 int getDay();
 void moveLocation(string location);
 string getCurrentLocation();
+int getClueCount();
+void setTravelWithChow(bool b); 
+bool isTravelingWithChow(); 
+bool checkWin(); 
+bool checkLoss();
+//trade and buy/sell functions
+void addMoney(int amount);
+bool spendMoney(int amount);
+int getMoney();
 void addItem(Item i);
 void displayInventory();
-int getInventoryCount();
-int getClueCount();
-void setTravelWithChow(bool b);
-bool isTravelingWithChow(); 
-bool checkWin();
-bool checkLoss();
+int getInventoryCount(); //total items in inventory
 bool hasItem(string itemName);
 int getItemValue(string itemName);
 void removeItem(string itemName);

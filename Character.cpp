@@ -1,5 +1,7 @@
 #include "Character.h"
 
+
+//basic set and get functions
 Character::Character(string n, string l){
     name = n;
     location = l;

@@ -317,46 +317,37 @@ else{
             cin >> tradeChoice;
         }
 
-        if(tradeChoice==1){ //adds item to inventory, shows what you purchased and for how much
+        if(tradeChoice==1){ //adds item to inventory
             if(player.spendMoney(npcs[index].getCost())==1){
                 cout << endl;
                 cout<< "============================================================"  << endl;
                 cout << endl;
                 cout << "Purchase successful. You now have " << npcs[index].getTradeItem().getName() << endl;
                 cout << "Spent " << npcs[index].getCost() << endl;
-                player.addItem(npcs[index].getTradeItem()); //adds new trade item
-                player.addItem(npcs[index].getClueItem()); // adds clue item 
-                npcs[index].markGiven(); //tracks that npc has already traded
+                player.addItem(npcs[index].getTradeItem());
+                player.addItem(npcs[index].getClueItem());
+                npcs[index].markGiven();
 
                 if (npcs[index].getName() == "Phil"){
-                    cout << endl;
-                    cout<< "============================================================"  << endl;
-                    cout << endl;
                     cout << "Phil whispers: Take those pictures to Alan, he might know something. I heard he's somewhere overseas partying with Chow..." << endl;
                 } else if (npcs[index].getName() == "Alan"){
-                   cout << endl;
-                    cout<< "============================================================"  << endl;
-                    cout << endl; 
-                   cout << "Alan laughs: Stu back at The Club will want this." << endl;
+                    cout << "Alan laughs: Stu back at The Club will want this." << endl;
                 } else if (npcs[index].getName() == "Stu"){
-                    cout << endl;
-                    cout<< "============================================================"  << endl;
-                    cout << endl;
                     cout << "Stu says: Doug's around here somewhere at The Club, go find him." << endl;
                 } else if (npcs[index].getName() == "Doug"){
-                    cout << endl;
-                    cout<< "============================================================"  << endl;
-                    cout << endl;
-                cout << "Doug says: Good luck finding your friend, hope this helps." << endl;
+                    cout << "Doug says: Good luck finding your friend, hope this helps." << endl;
                 }
-                    if (player.getClueCount() >= 4){
-                        loc3.unlock();
+
+                if (player.checkWin()){ //all clues collected: unlock ending
+                    loc3.unlock();
+                    if(player.getActionsRemaining() <= 0){
+                        player.addAction(); //guarantee a final action to travel
                     }
-            } else{ //if player cant afford
-                    cout << endl;
-                    cout<< "============================================================"  << endl;
-                    cout << endl;
-                    cout << "Not enought Money." << endl;
+                    cout << endl << "Something about that last piece makes everything click into place..." << endl;
+                    cout << "A new path has opened up. Time to go find your friend." << endl << "Clues collected: 4/4" << endl;
+                }
+            } else{ //cant afford
+                cout << "Not enought Money." << endl;
                 break;
             }
         }
@@ -377,11 +368,11 @@ else{
             player.addItem(npcs[index].getTradeItem());
             player.addItem(npcs[index].getClueItem());
             npcs[index].markGiven();
-            if (player.getClueCount() >= 4){ //tells player that all clues have been collected
+            if (player.checkWin()){ //tells player that all clues have been collected
                 loc3.unlock();
                 if(player.getActionsRemaining() <= 0){
-            player.addAction(); //adds final action if player used last action to get final clue
-            } 
+                    player.addAction(); //adds final action if player used last action to get final clue
+                    } 
                 cout << endl;
                 cout << endl << "Something about that last piece makes everything click into place..." << endl;
                 cout << "A new path has opened up. Time to go find your friend." << endl << "Clues collected: 4/4" << endl;
@@ -407,7 +398,7 @@ else{
                     cout << endl;
                 cout << "Doug says: Good luck finding your friend, hope this helps." << endl;
                 }
-                    if (player.getClueCount() >= 4){
+                    if (player.checkWin()==1){
                         loc3.unlock();
                     }
             
@@ -420,7 +411,8 @@ else{
     break;
     
 }
-    } //end case 1 bracket
+    } 
+//end case 1 bracket
 
     //sell logic
     case 3:{
@@ -445,6 +437,8 @@ else{
 
     if(player.sellItem(item)==1){
         cout << "Sold " << item << " for " << value << "$" << endl;
+    } else {
+         cout << "You can't sell clues!" << endl;
     }
     cout << endl;
     break;

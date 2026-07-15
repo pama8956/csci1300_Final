@@ -8,8 +8,10 @@ Location::Location(string n, int c, bool b){
 }
     void Location::unlock(){
     unlocked = true;
-    }
-    bool Location::isUnlocked(){
+    } //use to open unlocked location to players
+
+
+    bool Location::isUnlocked(){ 
     return unlocked;
     }
     void Location::setName(string n){

@@ -6,6 +6,7 @@
 
 using namespace std;
 
+//Parent class of npc and player
 class Character{
 
     private:
