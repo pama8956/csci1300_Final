@@ -37,4 +37,4 @@ Then run with ./game
 
 ## Extra credit
 
-(TBA — or write "None")
+### NONE
